@@ -46,7 +46,6 @@
   padding: 5px;
 }
 
-
 .todo-list-new {
   color: $base05;
   padding-left: 5px;
@@ -63,4 +62,21 @@
 
 .todo-list-new-text {
   color: $base0C;
+}
+
+.todo-list-move-buttons {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.todo-list-button-move-up,
+.todo-list-button-move-down,
+.todo-list-button-complete {
+  border-radius: 3px;
+}
+
+.todo-list-button-move-up:hover,
+.todo-list-button-move-down:hover,
+.todo-list-button-complete:hover {
+  background-color: $base04;
 }

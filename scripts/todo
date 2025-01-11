@@ -7,11 +7,16 @@ if [[ ! -f "$TODO_FILE" ]]; then
 fi
 
 get() {
-    cat $TODO_FILE | sed 's/^.*/"value":"&"/' | cat -n | sed 's/\([0-9]\+\)/"id":"&",/' | sed 's/^.*/{&},/' | sed '1i[' | sed '$s/\(.*\),/\1\n]/' | jq
+    TASKS=`cat $TODO_FILE | sed 's/^.*/"value":"&"/' | cat -n | sed 's/\([0-9]\+\)/"id":"&",/' | sed 's/^.*/{&},/' | sed '1i[' | sed '$s/\(.*\),/\1\n]/' | jq`
+    if [[ "$TASKS" == "" ]]; then
+        TASKS="[]"
+    fi
+    echo "$TASKS"
 }
 
 count() {
-    grep -cE ".*" "$TODO_FILE"
+    COUNT=`grep -cE ".*" "$TODO_FILE"`
+    echo "$COUNT"
 }
 
 update_tasks() {
@@ -20,12 +25,21 @@ update_tasks() {
 }
 
 add() {
-    echo "$1" >> "$TODO_FILE"
-    update_tasks
+    if [[ ! -z "${1// }" ]]; then
+        echo "$1" >> "$TODO_FILE"
+        update_tasks
+        eww update todo_input_value=" "
+    fi
 }
 
 remove() {
     sed -i "${1}d" "$TODO_FILE"
+    update_tasks
+}
+
+clear() {
+    rm $TODO_FILE
+    touch $TODO_FILE
     update_tasks
 }
 
@@ -42,11 +56,13 @@ move() {
 if [[ "$1" == "--get" ]]; then
     get
 elif [[ "$1" == "--add" ]]; then
-    add $2
+    add "$2"
 elif [[ "$1" == "--remove" ]]; then
     remove $2
 elif [[ "$1" == "--count" ]]; then
     count
 elif [[ "$1" == "--move" ]]; then
     move $2 $3
+elif [[ "$1" == "--clear" ]]; then
+    clear
 fi
