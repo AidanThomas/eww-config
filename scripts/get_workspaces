@@ -1,38 +1,11 @@
 #!/run/current-system/sw/bin/bash
 
-spaces() {
-    DESKTOPS=$(bspc query -m "$1" -D --names)
-    OCCUPIED=$(bspc query -m "$1" -D -d .occupied --names)
-    FOCUSED=$(bspc query -m "$1" -D -d .focused --names)
-
-    IS_OCCUPIED=""
-    IS_FOCUSED=""
-    for i in ${DESKTOPS}; do
-        if [[ $OCCUPIED == *"$i"* ]]; then
-            IS_OCCUPIED="${IS_OCCUPIED} true"
-        else
-            IS_OCCUPIED="${IS_OCCUPIED} false"
-        fi
-
-        if [[ $FOCUSED == *"$i"* ]]; then
-            IS_FOCUSED="${IS_FOCUSED} true"
-        else
-            IS_FOCUSED="${IS_FOCUSED} false"
-        fi
-    done
-
-    DESKTOPS=(${DESKTOPS})
-    IS_OCCUPIED=(${IS_OCCUPIED})
-    IS_FOCUSED=(${IS_FOCUSED})
-
-    OUTPUT=""
-    for i in ${DESKTOPS[@]}; do
-        OUTPUT="$OUTPUT{\"name\": ${DESKTOPS[$i-1]}, \"occupied\": ${IS_OCCUPIED[$i-1]}, \"focused\": ${IS_FOCUSED[$i-1]}}"
-    done
-    echo ${OUTPUT} | jq --slurp -Mc
+workspaces() {
+    ACTIVE_ID=`hyprctl -j activeworkspace | jq ".id"`
+    hyprctl -j workspaces | jq -Mc "map(. | select(.monitorID == 0) | {id: .id, name: .name, occupied: (.windows > 0), focused: (.id == ${ACTIVE_ID})}) | sort_by(.id)"
 }
 
-spaces $1
-bspc subscribe desktop node_transfer | while read -r _ ; do
-    spaces $1
+workspaces
+socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do
+    workspaces
 done

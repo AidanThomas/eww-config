@@ -1,12 +1,10 @@
 #!/run/current-system/sw/bin/bash
 
 info() {
-    CLASS=`xprop -id $(bspc query -N -n .focused -d .focused) | grep -E "^WM_CLASS" | grep -oE ', ".+"' | tr -d '," '`
-    TITLE=`xtitle $(bspc query -N -n .focused -d .focused)`
-    echo "{\"class\":\"$CLASS\", \"title\": \"$TITLE\"}"
+    hyprctl activewindow -j | jq -Mc "{class: .class, title: .title}"
 }
 
 info
-bspc subscribe desktop node_focus | while read -r _ ; do
+socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do
     info
 done
