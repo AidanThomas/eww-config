@@ -1,9 +1,10 @@
-(defpoll time :interval "1s" "scripts/get_time")
+(defpoll time :interval ".5s" "scripts/get_time")
+(defpoll weather :interval "30m" "scripts/weather")
 (defvar time_reveal true)
 
 ;; Main widget to be included in statusbar
 (defwidget clock []
-  (eventbox :onclick "scripts/pop --calendar"
+  (eventbox :onclick "scripts/pop --calendar_info"
             ;; :onhover "eww update time_reveal=true"
             ;; :onhoverlost "eww update time_reveal=false"
     (box :class "clock-widget" :space-evenly false :orientation "h"
@@ -16,18 +17,43 @@
                :text " ${time.day} ${time.date} ${time.month.name}")))))
 
 ;; Popup widget
-(defwindow calendar :monitor 0
-                    :geometry (geometry :x "-10px"
-                                        :y "50px"
-                                        :anchor "top right"
-                                        :width "270px"
-                                        :height "60px")
-                    (cal))
+(defwindow calendar_info :monitor 0
+                :geometry (geometry :x "5px"
+                                    :y "5px"
+                                    :anchor "top right")
+                (calendar_info))
 
-(defwidget cal []
-  (box :class "cal popup"
-       :orientation "v"
-    (box :class "cal-in"
-      (calendar :class "cal"
-                :day {time.date}
-                :year {time.year}))))
+(defwidget calendar_info []
+  (box :orientation "v" :class "calendar-info popup" :space-evenly false
+    (box :orientation "h" :class "row"
+      (label :text "${time.hour}:${time.minute}:${time.second}" :class "time"))
+    (box :orientation "h" :class "row"
+      (calendar :class "cal" :day {time.date} :year {time.year}))
+    (box :orientation "v" :class "row" :space-evenly false
+      (current_weather)
+      (box :orientation "h" :class "weather-separator")
+      (weather_forecast))))
+
+(defwidget current_weather []
+  (box :orientation "h" :class "current-weather" :space-evenly false
+    (image :class "weather-icon" 
+           :path "images/weather/${weather.current.icon}.png" 
+           :image-height 100 
+           :image-width 100)
+    (box :orientation "v" :width 150 :space-evenly false
+      (box :orientation "h" :space-evenly false :class "temperature"
+        (label :class "text" :text "${round(weather.current.temp, 0)}C")
+        (label :class "icon" :text ""))
+      (label :class "description" :text {weather.current.description} :wrap true :xalign 0))
+    (box :orientation "v" :space-evenly false
+      (label :class "wind-speed" :text " ${round(weather.current.wind_speed, 1)} m/s" :xalign 0)
+      (label :class "humidity" :text " ${round(weather.current.humidity, 0)}%" :xalign 0))))
+
+(defwidget weather_forecast []
+  (box :orientation "h" :class "weather-forecast"
+    (for forecast in {weather.hourly}
+      (box :orientation "v" :space-evenly false :class "forecast"
+        (label :text {formattime(forecast.time, "%l%p")})
+        (image :path "images/weather/${forecast.icon}.png" :image-width 60 :image-height 60)
+        (label :class "temperature" :text "${round(forecast.temp, 0)}C")))))
+

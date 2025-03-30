@@ -1,13 +1,13 @@
 #!/run/current-system/sw/bin/bash
 
-LOCK_FILE_CAL="$HOME/.cache/eww-calendar.lock"
+LOCK_FILE_CAL="$HOME/.cache/eww-calendar_info.lock"
 LOCK_FILE_NOTIFICATIONS="$HOME/.cache/eww-notifications.lock"
 LOCK_FILE_POWERMENU="$HOME/.cache/eww-powermenu.lock"
 LOCK_FILE_TODO="$HOME/.cache/eww-todolist.lock"
 
-calendar() {
+calendar_info() {
     run() {
-        eww open calendar
+        eww open calendar_info
     }
 
     # Open widgets
@@ -19,7 +19,7 @@ calendar() {
         rm $LOCK_FILE_TODO
         run && echo "ok good!"
     else
-        eww close calendar
+        eww close calendar_info
         rm "$LOCK_FILE_CAL" && echo "closed"
     fi
 }
@@ -81,8 +81,8 @@ todo() {
     fi
 }
 
-if [ "$1" = "--calendar" ]; then
-    calendar
+if [ "$1" = "--calendar_info" ]; then
+    calendar_info
 elif [ "$1" = "--notifications" ]; then
     notifications
 elif [ "$1" = "--powermenu" ]; then

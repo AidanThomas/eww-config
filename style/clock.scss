@@ -18,10 +18,15 @@
   font-size: 18px;
 }
 
+.popup>.row>.time {
+  color: $base0C;
+  font-weight: bold;
+  font-size: 40px;
+}
+
 .cal {
   font-size: 18px;
-  border-radius: 5px;
-  border: 1px solid $base05;
+  padding: 4px;
 
   .cal-in {
     color: $base05;
@@ -39,7 +44,6 @@ calendar:selected {
 
 calendar.header {
   color: $base08;
-  font-weight: bold;
 }
 
 calendar.button {
@@ -57,4 +61,39 @@ calendar.highlight {
 
 calendar:indeterminate {
   color: $base03;
+}
+
+.current-weather {
+  .weather-icon {
+    margin: -15px;
+  }
+
+  .temperature {
+    .text, .icon{
+      font-weight: bold;
+      font-size: 30px;
+    }
+    .text {
+      margin-left: 10px;
+    }
+    .icon {
+      margin-left: 10px;
+      color: $base09;
+    }
+  }
+
+  .description {
+    margin-left: 10px;
+    color: $base0C;
+  }
+
+  .wind-speed {
+    margin-top: 10px;
+  }
+}
+
+.weather-separator {
+  border: 1px solid $base03;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }

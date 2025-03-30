@@ -51,19 +51,6 @@
     (power_menu_button :label "󰍃" :class "logout" :action "scripts/power --logout")
     (power_menu_button :label "󰤄" :class "sleep" :action "scripts/power --sleep")))
 
-
-;;apps:
-;;kitty
-;;firefox
-;;discord
-;;spotify
-;;
-;;websites:
-;;youtube
-;;reddit
-;;github
-;;mynixos
-
 (defwidget app_shortcuts []
   (box :orientation "v" :class "widget-container" :height 20
     (box :orientation "h" :class "widget-container"

@@ -1,0 +1,12 @@
+#!/run/current-system/sw/bin/bash
+
+APPID=82d56125563192c40f3ed2bc755f9b78
+LAT=51.5985
+LON=-1.6546
+
+DATA=`curl -s "https://api.openweathermap.org/data/3.0/onecall?lat=${LAT}&lon=${LON}&exclude=minutely,daily&units=metric&appid=${APPID}"`
+echo $DATA |\
+    jq '{
+    current: { temp: .current.temp, humidity: .current.humidity, wind_speed: .current.wind_speed, description: .current.weather[].description, icon: .current.weather[].icon },
+    hourly: .hourly[1:5] | map({ time: .dt, temp: .temp, humidity: .humidity, wind_speed: .wind_speed, description: .weather[].description, icon: .weather[].icon}),
+    alerts: .alerts}'

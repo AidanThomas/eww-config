@@ -30,6 +30,18 @@
 
 .popup {
   background-color: $base00;
+  font-size: 20px;
+  border-radius: 5px;
+  border: 1px solid $base03;
+  padding: 5px;
+  color: $base05;
+}
+
+.popup>.row {
+  background-color: $base01;
+  margin: 5px;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 @import 'style/powermenu';
