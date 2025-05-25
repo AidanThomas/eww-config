@@ -1,0 +1,11 @@
+#!/run/current-system/sw/bin/bash
+
+date +\
+{\"hour\":\"%H\"\,\
+\"minute\":\"%M\"\,\
+\"second\":\"%S\"\,\
+\"day\":\"%a\"\,\
+\"date\":\"%_d\"\,\
+\"month\":{\"number\":\"%m\"\,\"name\":\"%b\"}\,\
+\"year\":\"%Y\"}\
+| jq
