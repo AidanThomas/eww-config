@@ -34,42 +34,41 @@
     (box :class "statusbar-left"
          :halign "start"
          :space-evenly false
-         (container :extra_class "powermenu" :visible true (nixos))
+         (container :extra_class "powermenu" :visible true :clickable true (nixos))
          (separator)
-         (container :extra_class "workspaces" :visible true (workspaces))
+         (container :extra_class "workspaces" :visible true :clickable true (workspaces))
          (separator)
-         (container :extra_class "current-title" :visible true (current))
+         (container :extra_class "current-title" :visible true :clickable false (current))
          (separator)
-         (container :extra_class "visualizer" :visible true (visualizer)))
+         (container :extra_class "visualizer" :visible true :clickable false (visualizer)))
     (box :class "statusbar-center"
          :halign "center"
          :space-evenly false
-         (container :halign "center" :extra_class "music" :visible music_alive (music)))
+         (container :halign "center" :extra_class "music" :visible music_alive :clickable true (music)))
     (box :class "statusbar-right"
          :halign "end"
          :space-evenly false
-         (container :extra_class "todo" :visible true (todo))
+         (container :extra_class "disk" :visible true :clickable false (disk))
          (separator)
-         (container :extra_class "disk" :visible true (disk))
+         (container :extra_class "memory" :visible true :clickable false (memory))
          (separator)
-         (container :extra_class "memory" :visible true (memory))
+         (container :extra_class "mic" :visible true :clickable true (mic))
          (separator)
-         (container :extra_class "mic" :visible true (mic))
+         (container :extra_class "speaker" :visible true :clickable true (speakers))
          (separator)
-         (container :extra_class "speaker" :visible true (speakers))
+         (container :extra_class "notifications" :visible true :clickable true (notifications))
          (separator)
-         (container :extra_class "notifications" :visible true (notifications))
-         (separator)
-         (container :extra_class "clock" :visible true (clock)))))
+         (container :extra_class "clock" :visible true :clickable true (clock)))))
 
-(defwidget container [extra_class visible]
-  (eventbox :class "container ${extra_class}-container"
+(defwidget container [extra_class visible clickable]
+  (eventbox :class "container ${extra_class}-container ${clickable ? "clickable": ""}"
             :visible visible
             :hexpand true :vexpand true
             :valign "center"
             :height 30
             (box :class "container-inner"
               (children))))
+
 
 (defwidget separator []
   (label :class "separator"
