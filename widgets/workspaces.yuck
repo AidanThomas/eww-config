@@ -12,4 +12,4 @@
                   :valign "center"
                   :hexpand false
                   (label :class "workspace-icon"
-                         :text "${workspace.name == "terminal" ? "" : workspace.name == "browser" ? "󰈹" : workspace.name == "music" ? "󰓇" : workspace.focused ? "" : ""}")))))))
+                         :text "${workspace.name == "terminal" ? "" : workspace.name == "browser" ? "󰈹" : workspace.name == "steam" ? "" : workspace.name == "music" ? "󰓇" : workspace.focused ? "" : ""}")))))))
