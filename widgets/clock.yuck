@@ -1,20 +1,13 @@
 (defpoll time :interval ".5s" "scripts/get_time")
 (defpoll weather :interval "30m" "scripts/weather")
-(defvar time_reveal true)
 
 ;; Main widget to be included in statusbar
 (defwidget clock []
   (eventbox :onclick "scripts/pop --calendar_info"
-            ;; :onhover "eww update time_reveal=true"
-            ;; :onhoverlost "eww update time_reveal=false"
     (box :class "clock-widget" :space-evenly false :orientation "h"
-      (label :class "clock-hour" :text "${time.hour}")
-      (label :class "clock-minute" :text "${time.minute}")
-      (revealer :transition "slideleft"
-                :reveal time_reveal
-                :duration "350ms"
-        (label :class "clock-date" 
-               :text " ${time.day} ${time.date} ${time.month.name}")))))
+     (label :class "clock-date" :text "${time.day} ${time.date} ${time.month.name} ")
+     (label :class "clock-hour" :text "${time.hour}")
+     (label :class "clock-minute" :text "${time.minute}"))))
 
 ;; Popup widget
 (defwindow calendar_info :monitor 0

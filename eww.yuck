@@ -48,14 +48,8 @@
     (box :class "statusbar-right"
          :halign "end"
          :space-evenly false
-         (container :extra_class "disk" :visible true :clickable false (disk))
-         (separator)
-         (container :extra_class "memory" :visible true :clickable false (memory))
-         (separator)
          (container :extra_class "mic" :visible true :clickable true (mic))
-         (separator)
          (container :extra_class "speaker" :visible true :clickable true (speakers))
-         (separator)
          (container :extra_class "notifications" :visible true :clickable true (notifications))
          (separator)
          (container :extra_class "clock" :visible true :clickable true (clock)))))

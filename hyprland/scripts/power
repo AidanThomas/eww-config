@@ -1,5 +1,10 @@
 #!/run/current-system/sw/bin/bash
 
+LOCK_FILE_CAL="$HOME/.cache/eww-calendar_info.lock"
+LOCK_FILE_POWERMENU="$HOME/.cache/eww-powermenu.lock"
+
+rm "$LOCK_FILE_CAL" && rm "$LOCK_FILE_POWERMENU"
+
 if [[ "$1" == "--shutdown" ]]; then
     systemctl poweroff
 elif [[ "$1" == "--restart" ]]; then
@@ -9,3 +14,5 @@ elif [[ "$1" == "--logout" ]]; then
 elif [[ "$1" == "--sleep" ]]; then
     systemctl suspend
 fi
+
+rm "$LOCK_FILE_CAL" && rm "$LOCK_FILE_POWERMENU"
